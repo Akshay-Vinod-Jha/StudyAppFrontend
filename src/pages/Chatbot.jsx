@@ -66,13 +66,26 @@ export default function Chatbot() {
       };
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
+      let errorText = `Sorry, I encountered an error. Please try again.`;
+      
+      // Get detailed error from API response
+      if (err.response?.data?.error) {
+        errorText = err.response.data.error;
+        if (err.response.data.details) {
+          console.error("Backend error details:", err.response.data.details);
+        }
+      } else if (err.message) {
+        errorText = err.message;
+      }
+      
       const errorMsg = {
         id: messages.length + 2,
         type: "bot",
-        text: `Sorry, I encountered an error: ${err.message}. Please try again.`,
+        text: `Sorry, I encountered an error: ${errorText}`,
       };
       setMessages((prev) => [...prev, errorMsg]);
-      setError(err.message);
+      setError(errorText);
+      console.error("Chat error:", err);
     } finally {
       setLoading(false);
     }
