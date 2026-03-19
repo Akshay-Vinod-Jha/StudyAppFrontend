@@ -1,14 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Subjects from './pages/Subjects';
-import Notes from './pages/Notes';
-import Tracker from './pages/Tracker';
-import Analytics from './pages/Analytics';
-import './styles/App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Subjects from "./pages/Subjects";
+import Notes from "./pages/Notes";
+import Tracker from "./pages/Tracker";
+import Analytics from "./pages/Analytics";
+import Chatbot from "./pages/Chatbot";
+import "./styles/App.css";
 
 function App() {
   return (
@@ -56,6 +62,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/chatbot"
+            element={
+              <ProtectedRoute>
+                <Chatbot />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Router>
@@ -64,4 +78,3 @@ function App() {
 }
 
 export default App;
-
