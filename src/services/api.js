@@ -86,4 +86,11 @@ export const analyticsAPI = {
     api.get("/analytics/overview", { params: { days } }),
 };
 
+// Chatbot API
+export const chatbotAPI = {
+  chat: (message, history = []) =>
+    api.post("/chatbot/chat", { message, history }),
+  health: () => api.get("/chatbot/health"),
+};
+
 export default api;

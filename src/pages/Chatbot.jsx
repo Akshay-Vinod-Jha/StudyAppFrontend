@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import { chatbotAPI } from "../services/api";
 import "../styles/Chatbot.css";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -54,32 +55,13 @@ export default function Chatbot() {
           content: msg.text,
         }));
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/chatbot/chat`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            message: userMessage,
-            history: history,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to get response from chatbot");
-      }
-
-      const data = await response.json();
+      const data = await chatbotAPI.chat(userMessage, history);
 
       // Add bot response to chat
       const botMsg = {
         id: messages.length + 2,
         type: "bot",
-        text: data.response,
+        text: data.data.response,
       };
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
