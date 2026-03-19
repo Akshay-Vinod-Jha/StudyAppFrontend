@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import "../styles/Chatbot.css";
 import LoadingSpinner from "../components/LoadingSpinner";
 
 export default function Chatbot() {
-  const { token } = useContext(AuthContext);
+  const { token } = useAuth();
   const [messages, setMessages] = useState([
     {
       id: 1,
