@@ -67,7 +67,7 @@ export default function Chatbot() {
       setMessages((prev) => [...prev, botMsg]);
     } catch (err) {
       let errorText = `Sorry, I encountered an error. Please try again.`;
-      
+
       // Get detailed error from API response
       if (err.response?.data?.error) {
         errorText = err.response.data.error;
@@ -77,7 +77,7 @@ export default function Chatbot() {
       } else if (err.message) {
         errorText = err.message;
       }
-      
+
       const errorMsg = {
         id: messages.length + 2,
         type: "bot",
