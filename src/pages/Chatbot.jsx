@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
+import Navbar from "../components/Navbar";
 import { chatbotAPI } from "../services/api";
 import "../styles/Chatbot.css";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -89,66 +90,75 @@ export default function Chatbot() {
   };
 
   return (
-    <div className="chatbot-container">
-      <div className="chatbot-header">
-        <h1>Study Buddy AI Assistant</h1>
-        <p>Ask me anything about your studies!</p>
-      </div>
+    <div>
+      <Navbar />
+      <div className="chatbot-page">
+        <div className="chatbot-header">
+          <h1>Study Buddy AI Assistant</h1>
+          <p>
+            Ask me anything about your studies, homework, or study techniques!
+          </p>
+        </div>
 
-      <div className="chatbot-messages">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`message ${message.type === "user" ? "user-message" : "bot-message"}`}
-          >
-            <div className="message-content">
-              {message.type === "bot" && <span className="bot-avatar">🤖</span>}
-              <div className="message-text">{message.text}</div>
-              {message.type === "user" && (
-                <span className="user-avatar">👤</span>
-              )}
-            </div>
-          </div>
-        ))}
-        {loading && (
-          <div className="message bot-message">
-            <div className="message-content">
-              <span className="bot-avatar">🤖</span>
-              <div className="message-text typing">
-                <div className="typing-indicator">
-                  <span></span>
-                  <span></span>
-                  <span></span>
+        <div className="chatbot-container">
+          <div className="chatbot-messages">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`message ${message.type === "user" ? "user-message" : "bot-message"}`}
+              >
+                <div className="message-content">
+                  {message.type === "bot" && (
+                    <span className="bot-avatar">🤖</span>
+                  )}
+                  <div className="message-text">{message.text}</div>
+                  {message.type === "user" && (
+                    <span className="user-avatar">👤</span>
+                  )}
                 </div>
               </div>
-            </div>
+            ))}
+            {loading && (
+              <div className="message bot-message">
+                <div className="message-content">
+                  <span className="bot-avatar">🤖</span>
+                  <div className="message-text typing">
+                    <div className="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
 
-      <div className="chatbot-footer">
-        {error && <div className="error-message">⚠️ {error}</div>}
-        <form onSubmit={sendMessage} className="message-form">
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type your question here..."
-            disabled={loading}
-            className="message-input"
-          />
-          <button
-            type="submit"
-            disabled={loading || !inputValue.trim()}
-            className="send-button"
-          >
-            {loading ? "..." : "📤 Send"}
-          </button>
-        </form>
-        <button onClick={clearChat} className="clear-button">
-          🔄 Clear Chat
-        </button>
+          <div className="chatbot-footer">
+            {error && <div className="error-message">⚠️ {error}</div>}
+            <form onSubmit={sendMessage} className="message-form">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Type your question here..."
+                disabled={loading}
+                className="message-input"
+              />
+              <button
+                type="submit"
+                disabled={loading || !inputValue.trim()}
+                className="send-button"
+              >
+                {loading ? "..." : "Send"}
+              </button>
+            </form>
+            <button onClick={clearChat} className="clear-button">
+              Clear Chat
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
